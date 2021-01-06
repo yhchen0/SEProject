@@ -8,6 +8,8 @@ const options = {
     cert: readFileSync(resolve(__dirname, 'cert', 'server.crt'))
 }
 const PORT = 3000;
+
 createServer(options, application).listen(PORT, '0.0.0.0', () => {
     console.log(`server start on https://localhost:${PORT}`)
 });
+

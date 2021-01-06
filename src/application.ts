@@ -1,11 +1,24 @@
 import express from 'express';
-import { oauthUrl, genGoogleClient } from './shared/gapi';
+
+/* pre middleware */
+import bodyParser from 'body-parser';
+import compression from 'compression';
+import { oauthUrl } from './shared/gapi';
+
+/* import Router */
+import {
+    gapiRouter
+} from './routers';
+
 const application = express();
+application.use(bodyParser.json())
+application.use(compression())
+
+application.use('/api', gapiRouter);
+/* Default Router. */
+application.get('*', async (req,res) => {
+    res.end('');
+});
+
 console.log( oauthUrl );
-
-application.get('/oauth', async (req, res) => {
-    const code = req.query.code as string;
-    console.log(await genGoogleClient(code));
-})
-
 export { application };

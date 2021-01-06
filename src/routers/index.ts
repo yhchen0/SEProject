@@ -1,0 +1,1 @@
+export { router as gapiRouter } from './google.router';
