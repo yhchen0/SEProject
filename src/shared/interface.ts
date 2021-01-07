@@ -1,8 +1,17 @@
-interface BookingInfo {
-    title: string,
-    startDate: Date,
-    endDate: Date,
-    id: number,
-    members: string[] | number[],
-    roomId: number
+export interface CreateMeetingDao {
+    title: string;
+    startTime: Date;/* Uinx Timestamp */
+    endTime: Date;  /* Uinx Timestamp */
+    moreInformation: string;
+    roomId: number;
+    members: number[];
+}
+
+export interface CreateMeetingDao {
+    title: string;
+    startTime: Date;/* Uinx Timestamp */
+    endTime: Date;  /* Uinx Timestamp */
+    moreInformation: string;
+    roomId: number;
+    members: number[];
 }

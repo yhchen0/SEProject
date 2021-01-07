@@ -10,18 +10,30 @@ const SCOPE = [
     'https://www.googleapis.com/auth/calendar.readonly',
     'https://www.googleapis.com/auth/calendar.settings.readonly',
     'https://www.googleapis.com/auth/calendar.addons.execute',
+    'https://www.googleapis.com/auth/userinfo.profile'
 ];
 
-export const oauthUrl = oauthClient.generateAuthUrl({
+const oauthUrl = oauthClient.generateAuthUrl({
     response_type: 'code',
     scope: SCOPE,
     redirect_uri: REDIRECT_URL
 });
 
-export const genGoogleClient = async (code: string) => {
+const genUserInfo = async (code: string) => {
     const { tokens } = await oauthClient.getToken(code);
+    oauthClient.setCredentials({ access_token: tokens.access_token });
+    const { data: userinfo} = await google.oauth2({
+        auth: oauthClient,
+        version: 'v2'
+    }).userinfo.get();
+    
     return {
+        id: userinfo.id,
+        username: userinfo.name,
         token: tokens.access_token,
         expireAt: tokens.expiry_date,
     };
 }
+
+
+export { oauthClient, genUserInfo, oauthUrl };

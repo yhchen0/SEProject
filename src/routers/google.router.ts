@@ -1,19 +1,25 @@
 import { Router } from 'express';
-import loki from 'lokijs';
+import { genUserInfo } from './../shared/gapi';
+import { PrismaClient } from '@prisma/client';
+const router = Router();
 
-const Database = new loki('database.json');
+router.post('/oauth', async (req, res) => {
+    try {
+        const clinet = new PrismaClient();
+        const { code } = req.body;
+        const userInfo = await genUserInfo(code);
 
-export const router = Router();
-
-router.use(function timeLog(req, res, next) {
-    console.log('Time: ', Date.now());
-    next();
-});
-
-
-router.get('/oauth', (req, res) => {
-    const user = Database.addCollection('user');
-    user.insertOne({
-        test: '100'
-    });
+        await clinet.users.create({
+            data: {
+                userToken: userInfo.id as string,
+                userName: userInfo.username as string
+            }
+        });
+        
+        res.json(userInfo);
+    } catch (e) {
+        res.json({ error: e.message })
+    }
 })
+
+export { router };
