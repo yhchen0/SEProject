@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "dev": "npm run copyfiles && tsc-watch --project tsconfig.build.json --onSuccess \"node ./dist/index.js\"",
-    "copyfiles": "cp -r ./src/cert ./dist/cert"
+    "copyfiles": "cp -r ./src/cert ./dist/cert",
+    "map": "npx prisma introspect && npx prisma generate"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "2.14.0",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
     "express": "^4.17.1",
@@ -21,7 +23,7 @@
     "ws": "^7.4.2"
   },
   "devDependencies": {
-    "@prisma/cli": "^2.14.0",
+    "@prisma/cli": "2.14.0",
     "@types/body-parser": "^1.19.0",
     "@types/compression": "^1.7.0",
     "@types/express": "^4.17.9",

@@ -2,7 +2,8 @@ CREATE TYPE Room as ENUM('ROOM1','ROOM2','ROOM3','ROOM4','ROOM5','ROOM6');
 
 CREATE TABLE Users(
     id               SERIAL NOT NULL PRIMARY KEY,
-    user_token VARCHAR[200] NOT NULL,
+    user_name       VARCHAR NOT NULL,
+    user_token      VARCHAR NOT NULL,
     created_at    TIMESTAMP NOT NULL DEFAULT(NOW()),
     updated_at    TIMESTAMP NOT NULL DEFAULT(NOW())
 );

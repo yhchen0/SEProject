@@ -1,11 +1,43 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://yanhau:h97881992@localhost:5432/seproject?schema=public"
 }
 
-generator client {
-  provider = "prisma-client-js"
+model meeting {
+  id           Int         @id @default(autoincrement())
+  roomId       room        @map("room_id")
+  beginAt      DateTime    @default(now()) @map("begin_at")
+  finishAt     DateTime    @default(now()) @map("finish_at")
+  // attendees attendees[]
+}
+
+model users {
+  id           Int         @id @default(autoincrement())
+  userName     String      @map("user_name")
+  userToken    String      @map("user_token")
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @default(now()) @map("updated_at")
+  // attendees attendees[]
+}
+
+// The underlying table does not contain a valid unique identifier and can therefore currently not be handled.
+// model attendees {
+  // id         Int     @default(autoincrement())
+  // meeting_id Int
+  // user_id    Int
+  // meeting    meeting @relation(fields: [meeting_id], references: [id])
+  // users      users   @relation(fields: [user_id], references: [id])
+// }
+
+enum room {
+  ROOM1
+  ROOM2
+  ROOM3
+  ROOM4
+  ROOM5
+  ROOM6
 }
