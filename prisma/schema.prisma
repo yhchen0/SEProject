@@ -7,31 +7,38 @@ datasource db {
   url      = "postgresql://yanhau:h97881992@localhost:5432/seproject?schema=public"
 }
 
-model meeting {
-  id           Int         @id @default(autoincrement())
-  roomId       room        @map("room_id")
-  beginAt      DateTime    @default(now()) @map("begin_at")
-  finishAt     DateTime    @default(now()) @map("finish_at")
-  // attendees attendees[]
-}
+// model meetingtousers {
+//   meetingId  Int      @map("meeting_id")
+//   userId     String   @map("user_id")
+//   created_at DateTime @default(now())
+//   meetings   meetings @relation("meetingtousersTomeetings", fields: [meetingId], references: [id])
+//   users      users    @relation(fields: [userId], references: [userId])
 
-model users {
-  id           Int         @id @default(autoincrement())
-  userName     String      @map("user_name")
-  userToken    String      @map("user_token")
-  createdAt    DateTime    @default(now()) @map("created_at")
-  updatedAt    DateTime    @default(now()) @map("updated_at")
-  // attendees attendees[]
-}
-
-// The underlying table does not contain a valid unique identifier and can therefore currently not be handled.
-// model attendees {
-  // id         Int     @default(autoincrement())
-  // meeting_id Int
-  // user_id    Int
-  // meeting    meeting @relation(fields: [meeting_id], references: [id])
-  // users      users   @relation(fields: [user_id], references: [id])
+//   @@unique([meetingId, userId], name: "_meetingtousers_pair")
+//   @@index([meetingId], name: "_meetingtousers_meeting")
+//   @@map("_meetingtousers")
 // }
+
+model Users {
+  userId         String           @id @map("user_id")
+  userName       String           @map("user_name")
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @default(now()) @map("updated_at")
+  meetings       Meetings[]
+
+  @@map("Users")
+}
+
+model Meetings {
+  id            Int         @id @default(autoincrement())
+  roomId        room        @map("room_id")
+  beginAt       DateTime    @map("begin_at")
+  finishAt      DateTime    @map("finish_at")
+  information   String?
+  users         Users[]
+
+  @@map("Meetings")
+}
 
 enum room {
   ROOM1
