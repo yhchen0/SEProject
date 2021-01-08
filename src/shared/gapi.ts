@@ -9,9 +9,9 @@ const REDIRECT_URL = 'http://localhost:3000';
 const oauthClient = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 const SCOPE = [
     'https://www.googleapis.com/auth/calendar',
+    'https://www.googleapis.com/auth/calendar.events',
     'https://www.googleapis.com/auth/calendar.readonly',
     'https://www.googleapis.com/auth/calendar.settings.readonly',
-    'https://www.googleapis.com/auth/calendar.addons.execute',
     'https://www.googleapis.com/auth/userinfo.profile'
 ];
 
@@ -52,20 +52,22 @@ interface CalendarEvent {
 const makeCalendar = async (token: string, calendarEvent: CalendarEvent) => {
     oauthClient.setCredentials({ access_token: token });
     const event = {
-        summary: calendarEvent.summary,
-        location: `NTUST ${calendarEvent.location}`,
-        description: `${calendarEvent.description}`,
-        start: {
-            dateTime: `${calendarEvent.startTime}:00:00+08:00`,
-            timeZone: 'Asia/Taipei'
+        'summary': `${calendarEvent.summary}`,
+        'location': `NTUST ${calendarEvent.location}`,
+        'description': `${calendarEvent.description}`,
+        'start': {
+            'dateTime': `${calendarEvent.startTime}`,
+            'timeZone': 'utc'
         },
         end: {
-            dateTime: `${calendarEvent.endTime}:00:00+08:00`,
-            timeZone: 'Asia/Taipei'
+            'dateTime': `${calendarEvent.endTime}`,
+            'timeZone': 'utc'
         },
     };
     const calendar = google.calendar({ version: 'v3', auth: oauthClient });
-    await calendar.events.insert({
+    
+    return calendar.events.insert({
+        auth: oauthClient,
         calendarId: 'primary',
         requestBody: event,
     });
