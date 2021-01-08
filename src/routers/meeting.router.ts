@@ -49,13 +49,13 @@ router.post('/meeting', async (req, res) => {
         res.json(meetings);
 
         /* link Google calendar */
-        makeCalendar(req.query.token as string, {
-            summary: '',
-            location: body.roomId,
-            description: body.moreInformation,
-            startTime: moment(body.startTime).toJSON(),
-            endTime: moment(body.endTime).toJSON()
-        });
+        // makeCalendar(req.query.token as string, {
+        //     summary: '',
+        //     location: body.roomId,
+        //     description: body.moreInformation,
+        //     startTime: moment(body.startTime).toJSON(),
+        //     endTime: moment(body.endTime).toJSON()
+        // });
     } catch (e) {
         console.log(e);
         res.json({ error: e.message })

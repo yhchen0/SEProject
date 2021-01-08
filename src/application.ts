@@ -3,10 +3,12 @@ import express from 'express';
 /* pre middleware */
 import bodyParser from 'body-parser';
 import compression from 'compression';
+import cors from 'cors';
 import { oauthUrl } from './shared/gapi';
 const application = express();
 application.use(bodyParser.json());
 application.use(compression());
+application.use(cors());
 
 /* Register Router */
 import {
