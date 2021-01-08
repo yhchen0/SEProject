@@ -9,6 +9,7 @@ CREATE TABLE "Users"(
 
 CREATE TABLE "Meetings"(
   "id"             SERIAL NOT NULL PRIMARY KEY,
+  "title"         VARCHAR,
   "room_id"          ROOM NOT NULL,
   "begin_at"    TIMESTAMP NOT NULL,
   "finish_at"   TIMESTAMP NOT NULL,

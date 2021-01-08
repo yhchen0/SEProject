@@ -7,40 +7,35 @@ datasource db {
   url      = "postgresql://yanhau:h97881992@localhost:5432/seproject?schema=public"
 }
 
-// model meetingtousers {
-//   meetingId  Int      @map("meeting_id")
-//   userId     String   @map("user_id")
-//   created_at DateTime @default(now())
-//   meetings   meetings @relation("meetingtousersTomeetings", fields: [meetingId], references: [id])
-//   users      users    @relation(fields: [userId], references: [userId])
-
-//   @@unique([meetingId, userId], name: "_meetingtousers_pair")
-//   @@index([meetingId], name: "_meetingtousers_meeting")
-//   @@map("_meetingtousers")
-// }
-
 model Users {
-  userId         String           @id @map("user_id")
-  userName       String           @map("user_name")
-  createdAt      DateTime         @default(now()) @map("created_at")
-  updatedAt      DateTime         @default(now()) @map("updated_at")
-  meetings       Meetings[]
-
-  @@map("Users")
+  userId    String   @id @map("user_id")
+  userName  String   @map("user_name")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+  meetsing  Meetings[]
 }
 
 model Meetings {
-  id            Int         @id @default(autoincrement())
-  roomId        room        @map("room_id")
-  beginAt       DateTime    @map("begin_at")
-  finishAt      DateTime    @map("finish_at")
-  information   String?
-  users         Users[]
-
-  @@map("Meetings")
+  id          Int      @id @default(autoincrement())
+  title       String?
+  roomId      ROOM     @map("room_id")
+  beginAt     DateTime @map("begin_at")
+  finishAt    DateTime @map("finish_at")
+  information String?
+  users       Users[]
 }
 
-enum room {
+//model MeetingsToUsers {
+//  A          Int
+//  B          String
+//  created_at DateTime @default(now())
+//
+//  @@unique([A, B], name: "_MeetingsToUsers_Pair")
+//  @@index([A], name: "_MeetingsToUsers_Meeting")
+//  @@map("_MeetingsToUsers")
+//}
+
+enum ROOM {
   ROOM1
   ROOM2
   ROOM3
