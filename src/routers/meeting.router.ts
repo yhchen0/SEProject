@@ -10,11 +10,13 @@ router.get('/meeting', async (req, res) => {
     try {
         const { day } = req.query;
         
+        /* Parse input day 'YYYY-MM-DD', then search meeting info in database. */
         const meetgins = await client.meetings.findMany({
             where: {
                 beginAt:  { gte: moment(Date.parse(`${day}T00:00:00.000Z`)).toJSON() },
                 finishAt: { lte: moment(Date.parse(`${day}T23:59:59.000Z`)).toJSON() }
             },
+            /* (SQL) join user table */
             include: { users: { select: { userId: true, userName: true }} }
         });
         res.json(meetgins);
@@ -29,6 +31,7 @@ router.post('/meeting', async (req, res) => {
     try {
         const body: CreateMeetingDao = req.body;
         const members = body.members.map((member: any) => { return { userId: member } });
+        /* Create Meetings. */
         const meetings = await client.meetings.create({
             data: {
                 roomId: body.roomId,
@@ -36,12 +39,16 @@ router.post('/meeting', async (req, res) => {
                 beginAt:  moment(body.startTime).toJSON(),
                 finishAt: moment(body.endTime).toJSON(),
                 information: body.moreInformation,
+
+                /* create relation user record */
                 users: {
                     connect: members
                 }
             }
         });
         res.json(meetings);
+
+        /* link Google calendar */
         makeCalendar(req.query.token as string, {
             summary: '',
             location: body.roomId,
@@ -60,6 +67,7 @@ router.put('/meeting/:id', async (req, res) => {
     try {
         const body: UpdateMeetingDao = req.body;
         const members = body.members.map((member: any) => { return { userId: member } });
+        /* Like create , but here just update */
         const meetings = await client.meetings.update({
             where: { id: parseInt(req.params.id as string) },
             data: {
@@ -67,6 +75,7 @@ router.put('/meeting/:id', async (req, res) => {
                 beginAt: moment(body.startTime).toJSON(),
                 finishAt: moment(body.endTime).toJSON(),
                 information: body.moreInformation,
+                /* Remove before state, use new info replace. */
                 users: {
                     set: members,
                 }
@@ -83,6 +92,7 @@ router.put('/meeting/:id', async (req, res) => {
 router.delete('/meeting/:id', async (req, res) => {
     const client = new PrismaClient();
     try {
+        /* Just delete meeting record. */
         const meetings = await client.meetings.delete({
             where: { id: parseInt(req.params.id as string) },
         });

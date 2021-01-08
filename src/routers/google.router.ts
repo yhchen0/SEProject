@@ -8,6 +8,8 @@ router.post('/oauth', async (req, res) => {
         const clinet = new PrismaClient();
         const { code } = req.body;
         const userInfo = await genUserInfo(code);
+
+        /* if user already register, update file from user information, or create new one.  */
         await clinet.users.upsert({
             where: { userId: userInfo.id as string },
             create: {
