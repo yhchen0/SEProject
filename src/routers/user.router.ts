@@ -3,10 +3,9 @@ import { PrismaClient } from '@prisma/client';
 const router = Router();
 
 router.get('/user', async (req, res) => {
-    console.log('test');
     try {
         const client = new PrismaClient();
-        const users = await client.users.findMany();
+        const users = await client.users.findMany({select: { userId: true, userName: true }});
         console.log();
         res.json(users);
     } catch (e) {

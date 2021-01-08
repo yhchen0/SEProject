@@ -6,5 +6,15 @@ export interface CreateMeetingDao {
     endTime: Date;  /* Uinx Timestamp */
     moreInformation: string;
     roomId: RoomId;
-    members: number[] | string [];
+    members: string [];
+}
+
+export interface UpdateMeetingDao {
+    meetingId: number,
+    title: string;
+    startTime: Date;/* Uinx Timestamp */
+    endTime: Date;  /* Uinx Timestamp */
+    moreInformation: string;
+    roomId: RoomId;
+    members: string[];
 }
