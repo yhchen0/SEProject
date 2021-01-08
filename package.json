@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsc-watch --project tsconfig.build.json --onSuccess \"node ./dist/index.js\"",
-    "copyfiles": "cp -r ./src/cert ./dist/cert",
+    "start": "npx forever start dist/index.js",
     "map": "npx prisma introspect && npx prisma generate",
     "gen": "npx prisma generate"
   },
