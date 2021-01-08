@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://yanhau:h97881992@localhost:5432/seproject?schema=public"
+  url      = "postgresql://postgres:00000000@127.0.0.1:5432/seproject?schema=public"
 }
 
 model Users {
@@ -12,7 +12,7 @@ model Users {
   userName  String   @map("user_name")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
-  meetsing  Meetings[]
+  meetings  Meetings[]
 }
 
 model Meetings {
@@ -25,15 +25,15 @@ model Meetings {
   users       Users[]
 }
 
-//model MeetingsToUsers {
-//  A          Int
-//  B          String
-//  created_at DateTime @default(now())
-//
-//  @@unique([A, B], name: "_MeetingsToUsers_Pair")
-//  @@index([A], name: "_MeetingsToUsers_Meeting")
-//  @@map("_MeetingsToUsers")
-//}
+model MeetingsToUsers {
+  A          Int
+  B          String
+  created_at DateTime @default(now())
+
+  @@unique([A, B], name: "_MeetingsToUsers_Pair")
+  @@index([A], name: "_MeetingsToUsers_Meeting")
+  @@map("_MeetingsToUsers")
+}
 
 enum ROOM {
   ROOM1

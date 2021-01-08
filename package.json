@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run copyfiles && tsc-watch --project tsconfig.build.json --onSuccess \"node ./dist/index.js\"",
+    "dev": "tsc-watch --project tsconfig.build.json --onSuccess \"node ./dist/index.js\"",
     "copyfiles": "cp -r ./src/cert ./dist/cert",
     "map": "npx prisma introspect && npx prisma generate",
     "gen": "npx prisma generate"
