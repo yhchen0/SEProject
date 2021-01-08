@@ -13,12 +13,13 @@ router.get('/meeting', async (req, res) => {
         /* Parse input day 'YYYY-MM-DD', then search meeting info in database. */
         const meetgins = await client.meetings.findMany({
             where: {
-                beginAt:  { gte: moment(Date.parse(`${day}T00:00:00.000Z`)).toJSON() },
-                finishAt: { lte: moment(Date.parse(`${day}T23:59:59.000Z`)).toJSON() }
+                beginAt:  { gte: moment(Date.parse(`${day}T00:00:00.000Z`) - 3600 * 1000 * 8).toJSON() },
+                finishAt: { lte: moment(Date.parse(`${day}T17:59:59.000Z`)).toJSON() }
             },
             /* (SQL) join user table */
             include: { users: { select: { userId: true, userName: true }} }
         });
+
         res.json(meetgins);
     } catch (e) {
         console.log(e);
