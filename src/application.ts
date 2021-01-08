@@ -4,12 +4,15 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
+import helmet from 'helmet';
 import { oauthUrl } from './shared/gapi';
 const application = express();
+application.use(helmet());
+application.use(cors());
 application.use(bodyParser.json());
 application.use(compression());
-application.use(cors());
 
+application.disable('x-powered-by');
 /* Register Router */
 import {
     gapiRouter,
