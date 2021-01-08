@@ -10,7 +10,7 @@ import {
     gapiRouter,
     meetingRouter,
     userRouter
-} from './routers';
+} from './routers/index';
 
 const application = express();
 application.use(bodyParser.json())

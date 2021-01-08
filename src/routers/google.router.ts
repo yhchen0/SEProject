@@ -11,7 +11,7 @@ router.post('/oauth', async (req, res) => {
 
         await clinet.users.create({
             data: {
-                userToken: userInfo.id as string,
+                userId: userInfo.id as string,
                 userName: userInfo.username as string
             }
         });
