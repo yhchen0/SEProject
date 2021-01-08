@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { CreateMeetingDao, UpdateMeetingDao } from '../shared/interface';
+import { makeCalendar } from './../shared/gapi';
 import moment from 'moment';
 const router = Router();
 
@@ -31,6 +32,7 @@ router.post('/meeting', async (req, res) => {
         const meetings = await client.meetings.create({
             data: {
                 roomId: body.roomId,
+                title: body.title,
                 beginAt:  moment(body.startTime).toJSON(),
                 finishAt: moment(body.endTime).toJSON(),
                 information: body.moreInformation,
@@ -40,6 +42,13 @@ router.post('/meeting', async (req, res) => {
             }
         });
         res.json(meetings);
+        makeCalendar(req.query.token as string, {
+            summary: '',
+            location: body.roomId,
+            description: body.moreInformation,
+            startTime: moment(body.startTime).toJSON(),
+            endTime: moment(body.endTime).toJSON()
+        });
     } catch (e) {
         console.log(e);
         res.json({ error: e.message })

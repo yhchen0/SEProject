@@ -35,5 +35,34 @@ const genUserInfo = async (code: string) => {
     };
 }
 
+interface CalendarEvent {
+    summary: string;
+    location: string;
+    description: string;
+    startTime: string;
+    endTime: string;
+};
 
-export { oauthClient, genUserInfo, oauthUrl };
+const makeCalendar = async (token: string, calendarEvent: CalendarEvent) => {
+    oauthClient.setCredentials({ access_token: token });
+    const event = {
+        summary: calendarEvent.summary,
+        location: `NTUST ${calendarEvent.location}`,
+        description: `${calendarEvent.description}`,
+        start: {
+            dateTime: `${calendarEvent.startTime}:00:00+08:00`,
+            timeZone: 'Asia/Taipei'
+        },
+        end: {
+            dateTime: `${calendarEvent.endTime}:00:00+08:00`,
+            timeZone: 'Asia/Taipei'
+        },
+    };
+    const calendar = google.calendar({ version: 'v3', auth: oauthClient });
+    await calendar.events.insert({
+        calendarId: 'primary',
+        requestBody: event,
+    });
+}
+
+export { oauthClient, genUserInfo, oauthUrl, makeCalendar };

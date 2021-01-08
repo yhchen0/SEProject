@@ -9,7 +9,11 @@ const options = {
 }
 const PORT = 3000;
 
-createServer(options, application).listen(PORT, '0.0.0.0', () => {
+application.listen(PORT, '0.0.0.0', () => {
+    console.log(`server start on http://localhost:${PORT}`)
+})
+
+createServer(options, application).listen(PORT+10000, '0.0.0.0', () => {
     console.log(`server start on https://localhost:${PORT}`)
 });
 

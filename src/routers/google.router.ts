@@ -8,14 +8,17 @@ router.post('/oauth', async (req, res) => {
         const clinet = new PrismaClient();
         const { code } = req.body;
         const userInfo = await genUserInfo(code);
-
-        await clinet.users.create({
-            data: {
+        await clinet.users.upsert({
+            where: { userId: userInfo.id as string },
+            create: {
+                userId: userInfo.id as string,
+                userName: userInfo.username as string
+            },
+            update: {
                 userId: userInfo.id as string,
                 userName: userInfo.username as string
             }
         });
-        
         res.json(userInfo);
     } catch (e) {
         res.json({ error: e.message })
