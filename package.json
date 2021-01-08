@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "npm run copyfiles && tsc-watch --project tsconfig.build.json --onSuccess \"node ./dist/index.js\"",
     "copyfiles": "cp -r ./src/cert ./dist/cert",
-    "map": "npx prisma introspect && npx prisma generate"
+    "map": "npx prisma introspect && npx prisma generate",
+    "gen": "npx prisma generate"
   },
   "keywords": [],
   "author": "",
@@ -35,6 +36,8 @@
     "@types/spdy": "^3.4.4",
     "@types/ws": "^7.4.0",
     "debug": "^4.3.1",
+    "forever": "^3.0.4",
+    "ts-node": "^9.1.1",
     "tsc-watch": "^4.2.9",
     "typescript": "^4.1.3"
   }
