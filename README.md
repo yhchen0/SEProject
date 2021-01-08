@@ -20,6 +20,7 @@ $ node -v # 檢查 node 是否安裝完成
 $ npm  -v # 檢查 npm  是否安裝完成
 $ psql -v # 檢查 psql 是否安裝完成
 ```
+前端的請看 前端專案的文件, 並且把編譯完成的 build 資料夾放到與 dist 同層再啟動伺服器
 最後, 請於專案根目錄執行 `npm install` 將第三方套件安裝, 並執行 `initial.postgre.sql` 以及 `npm run map` 來初始化資料庫, 最後使用`npm run start` 來開啟伺服器
 
 ## Project Structure
