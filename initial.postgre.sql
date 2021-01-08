@@ -17,11 +17,9 @@ CREATE TABLE "Meetings"(
 
 /* Relation */
 CREATE TABLE "_MeetingsToUsers"(
-  "A"          BIGINT    NOT NULL,
-  "B"          VARCHAR   NOT NULL,
-  "created_at" TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP),
-  FOREIGN KEY ("A") REFERENCES "Meetings"(id),
-  FOREIGN KEY ("B") REFERENCES "Users"(user_id)
+  "A"             BIGINT NOT NULL,
+  "B"            VARCHAR NOT NULL,
+  "created_at" TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 CREATE UNIQUE INDEX "_MeetingsToUsers_Pair"    ON "_MeetingsToUsers"("A" ,"B");
 CREATE        INDEX "_MeetingsToUsers_Meeting" ON "_MeetingsToUsers"("A");
